@@ -1,0 +1,18 @@
+<%- include('Partials/head') %>
+<body>
+    <header>
+         <h1>Welcome to airbnb</h1>
+        </header>
+        <main>
+        <a href='/host/add-home'>Add Home</a>
+        <h3>Registered Homes:</h3>
+        <ul>
+            <% registeredHome.forEach(home=>{ %>
+              <li>
+                <%= home.homeName %>
+              </li>
+            <% }) %>
+        </ul>
+    </main>
+</body>
+</html>
