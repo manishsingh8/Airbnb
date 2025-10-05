@@ -1,6 +1,28 @@
-<div>
+<style>
+      .favorite-btn {
+          display: block;
+          width: 100%;
+          background: linear-gradient(135deg, #2575fc, #6a11cb);
+          color: white;
+          border: none;
+          padding: 10px;
+          border-radius: 8px;
+          margin-top: 10px;
+          font-weight: 500;
+          font-size: 15px;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+      
+        .favorite-btn:hover {
+          background: linear-gradient(135deg, #6a11cb, #2575fc);
+          transform: scale(1.05);
+        }
+  </style>
+
+<div style="width:50%">
     <form action="/favorites" method="POST">
-        <button type="submit">Favorite</button>
+        <button type="submit" class="favorite-btn">Favorite</button>
         <input type="hidden" name="id" value="<%= homeDetails.id %>">
     </form>
 </div>

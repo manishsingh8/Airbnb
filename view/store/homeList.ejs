@@ -1,11 +1,10 @@
 <%- include('../Partials/head') %>
-<body>
+<body style="font-family: 'Poppins', sans-serif; background: #f6f8fa; margin: 0; padding: 0;">
   <%- include('../Partials/nav') %>
     <header>
         <h1>List of all registered homes:-</h1>
     </header>
     <main>
-        <a href='/'>Go to home </a>
        <ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 20px;">
 <% registeredHome.forEach(home => { %>
     <li style="background: #f9f9f9; border: 1px solid #ddd; border-radius: 12px; padding: 20px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.3s ease; cursor: pointer;"

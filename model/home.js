@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const rootDir = require("../utils/rootDir");
 
+const homeDataPath = path.join(rootDir, "data", "home.json");
+
 module.exports = class Home {
   constructor(homeName, homePrice, homeLocation, homeRating) {
     this.homeName = homeName;
@@ -11,10 +13,15 @@ module.exports = class Home {
   }
 
   save() {
-    this.id = Math.random().toString();
     Home.fetchAll((registeredHome) => {
-      registeredHome.push(this);
-      const homeDataPath = path.join(rootDir, "data", "home.json");
+      if (this.id) {
+        registeredHome = registeredHome.map((home) =>
+          home.id === this.id ? this : home
+        );
+      } else {
+        this.id = Math.random().toString();
+        registeredHome.push(this);
+      }
       fs.writeFile(homeDataPath, JSON.stringify(registeredHome), (err) =>
         console.log("Error while writing in file", err)
       );
@@ -22,7 +29,6 @@ module.exports = class Home {
   }
 
   static fetchAll(callback) {
-    const homeDataPath = path.join(rootDir, "data", "home.json");
     fs.readFile(homeDataPath, (err, data) => {
       callback(!err ? JSON.parse(data) : []);
     });
@@ -31,6 +37,18 @@ module.exports = class Home {
     this.fetchAll((homes) => {
       let homedetails = homes.find((item) => item.id === id);
       callback(homedetails);
+    });
+  }
+  static deleteById(id, callback) {
+    this.fetchAll((homes) => {
+      const updatedList = homes.filter((home) => home.id !== id);
+      fs.writeFile(homeDataPath, JSON.stringify(updatedList), (err) => {
+        if (err) {
+          console.log("Error while deleting home:", err);
+          return callback("Error while deleting home");
+        }
+        callback("Home Deleted Successfully");
+      });
     });
   }
 };
