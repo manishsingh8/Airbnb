@@ -1,8 +1,10 @@
 const Home = require("../model/home");
 const Favorite = require("../model/favourite");
 
-exports.getAddHome = (req, res, next) => {
-  res.render("admin/addHome", { pageTitle: "Add Home" });
+exports.getHomes = (req, res, next) => {
+  Home.fetchAll((registeredHome) =>
+    res.render("store/home", { registeredHome, pageTitle: "airbnb" })
+  );
 };
 
 exports.getHomeList = (req, res, next) => {
@@ -23,27 +25,6 @@ exports.getHomeDetails = (req, res, next) => {
       });
     }
   });
-};
-exports.getAdminHomeList = (req, res, next) => {
-  Home.fetchAll((registeredHome) => {
-    res.render("admin/adminHomeList", {
-      registeredHome,
-      pageTitle: "Admin Home Details",
-    });
-  });
-};
-
-exports.postAddHome = (req, res, next) => {
-  const { homeName, homePrice, homeLocation, homeRating } = req.body;
-  const home = new Home(homeName, homePrice, homeLocation, homeRating);
-  home.save();
-  res.render("store/homeAdded", { pageTitle: "Home Registered" });
-};
-
-exports.getHomes = (req, res, next) => {
-  Home.fetchAll((registeredHome) =>
-    res.render("store/home", { registeredHome, pageTitle: "airbnb" })
-  );
 };
 
 exports.getHomeBookings = (req, res, next) => {
@@ -74,6 +55,14 @@ exports.postFavorite = (req, res, next) => {
     if (error) {
       console.log("Error while marking favorite", error);
     }
-    res.redirect("/host/favourite-list");
+    res.redirect("/favourite-list");
+  });
+};
+exports.postRemoveFavorite = (req, res, next) => {
+  const homeId = req.params.homeId;
+  console.log(homeId, "id");
+  Favorite.deleteById(homeId, (msg) => {
+    console.log(msg);
+    res.redirect("/favourite-list");
   });
 };
