@@ -5,5 +5,10 @@ const pool = mysql.createPool({
   user: "root",
   password: "Manish@123",
   database: "airbnb",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  connectTimeout: 10000,
 });
+
 module.exports = pool.promise();
