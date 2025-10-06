@@ -43,7 +43,7 @@ exports.postUpdateHome = (req, res, next) => {
   const home = new Home(homeName, homePrice, homeLocation, homeRating);
   home.id = id;
   home.save();
-  res.redirect("/home-list");
+  res.redirect("/host/admin-home-list");
 };
 exports.postDeleteHome = (req, res, next) => {
   const id = req.params.homeId;

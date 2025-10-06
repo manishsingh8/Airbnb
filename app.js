@@ -5,6 +5,15 @@ const storeRouter = require("./routes/storeRouter");
 const { hostRouter } = require("./routes/hostRouter");
 const rootDir = require("./utils/rootDir");
 const errorController = require("./controllers/error");
+const db = require("./utils/database");
+
+db.execute("SELECT * FROM homes")
+  .then(([rows, fields]) => {
+    console.log("Getting from db", rows);
+  })
+  .catch((error) => {
+    console.log("Error while fetching from db", error);
+  });
 
 const app = express();
 app.set("view engine", "ejs");

@@ -1,4 +1,24 @@
 <%- include('../Partials/head') %>
+<style>
+  .anchor-btn {
+    display: inline-block;
+    background: #fff;
+    color: #2575fc;
+    border: 2px solid #2575fc;
+    padding: 6px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-right: 8px;
+    margin-top: 10px;
+  }
+
+  .anchor-btn:hover {
+    background: #2575fc;
+    color: #fff;
+  }
+</style>
 <body style="font-family: 'Poppins', sans-serif; background: #f6f8fa; margin: 0; padding: 0;">
   <%- include('../Partials/nav') %>
     <header>
@@ -14,7 +34,7 @@
       <p style="margin: 5px 0; font-size: 14px; color: #16a085;"><strong>Price Per Night:</strong> ₹<%= home.homePrice %></p>
       <p style="margin: 5px 0; font-size: 14px; color: #2980b9;"><strong>Location:</strong> <%= home.homeLocation %></p>
       <p style="margin: 5px 0; font-size: 14px; color: #e67e22;"><strong>Ratings:</strong> ⭐ <%= home.homeRating %></p>
-      <a href="homes/<%= home.id %>">See Details</a>
+      <a href="homes/<%= home.id %>" class="anchor-btn">See Details</a>
     </li>
   <% }) %>
 </ul>
