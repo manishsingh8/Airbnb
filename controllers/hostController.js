@@ -10,8 +10,7 @@ exports.getAddHome = (req, res, next) => {
 exports.getEditHome = (req, res, next) => {
   const editing = req.query.editing === "true";
   const id = req.params.homeId;
-  Home.findById(id).then(([rows]) => {
-    const homeDetails = rows[0];
+  Home.findById(id).then((homeDetails) => {
     if (!homeDetails) {
       console.log("Home Not Found for editing.");
       return res.redirect("/home-list");
@@ -25,7 +24,7 @@ exports.getEditHome = (req, res, next) => {
 };
 
 exports.getAdminHomeList = (req, res, next) => {
-  Home.fetchAll().then(([registeredHome, fields]) => {
+  Home.fetchAll().then((registeredHome) => {
     res.render("host/adminHomeList", {
       registeredHome,
       pageTitle: "Admin Home Details",
@@ -36,7 +35,12 @@ exports.getAdminHomeList = (req, res, next) => {
 exports.postAddHome = (req, res, next) => {
   const { homeName, homePrice, homeLocation, homeRating } = req.body;
   const home = new Home(homeName, homePrice, homeLocation, homeRating);
-  home.save();
+  home
+    .save()
+    .then(() => {
+      console.log("Home Saved SuccessFully");
+    })
+    .catch((error) => console.log("Error while adding home to db", error));
   res.redirect("/home-list");
 };
 exports.postUpdateHome = (req, res, next) => {
@@ -44,7 +48,8 @@ exports.postUpdateHome = (req, res, next) => {
   const home = new Home(homeName, homePrice, homeLocation, homeRating, id);
   home
     .save()
-    .then(() => {
+    .then((result) => {
+      console.log("Home Updated Successfully", result);
       res.redirect("/host/admin-home-list");
     })
     .catch((err) => {

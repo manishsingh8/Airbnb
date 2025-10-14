@@ -1,40 +1,50 @@
-const db = require("../utils/database");
+const { ObjectId } = require("mongodb");
+const { getDb } = require("../utils/database");
+
 module.exports = class Home {
-  constructor(homeName, homePrice, homeLocation, homeRating, id) {
+  constructor(homeName, homePrice, homeLocation, homeRating, _id) {
     this.homeName = homeName;
     this.homePrice = homePrice;
     this.homeLocation = homeLocation;
     this.homeRating = homeRating;
-    this.id = id;
+    if (_id) {
+      this._id = _id;
+    }
   }
 
   save() {
-    if (this.id) {
-      return db.execute(
-        "UPDATE homes SET homeName = ?, homePrice = ?, homeLocation = ?, homeRating = ? WHERE id=?",
-        [
-          this.homeName,
-          this.homePrice,
-          this.homeLocation,
-          this.homeRating,
-          this.id,
-        ]
-      );
+    const db = getDb();
+    if (this._id) {
+      const updatedField = {
+        homeName: this.homeName,
+        homePrice: this.homePrice,
+        homeLocation: this.homeLocation,
+        homeRating: this.homeRating,
+      };
+      return db
+        .collection("homes")
+        .updateOne(
+          { _id: new ObjectId(String(this._id)) },
+          { $set: updatedField }
+        );
     } else {
-      return db.execute(
-        "INSERT INTO homes (homeName, homePrice, homeLocation, homeRating) VALUES(?, ?, ?, ?)",
-        [this.homeName, this.homePrice, this.homeLocation, this.homeRating]
-      );
+      return db.collection("homes").insertOne(this);
     }
   }
 
   static fetchAll() {
-    return db.execute("SELECT * FROM homes");
+    const db = getDb();
+    return db.collection("homes").find().toArray();
   }
   static findById(id) {
-    return db.execute("SELECT * FROM homes WHERE id=?", [id]);
+    const db = getDb();
+    return db
+      .collection("homes")
+      .find({ _id: new ObjectId(String(id)) })
+      .next();
   }
   static deleteById(id) {
-    return db.execute("DELETE FROM homes WHERE id=?", [id]);
+    const db = getDb();
+    return db.collection("homes").deleteOne({ _id: new ObjectId(String(id)) });
   }
 };
