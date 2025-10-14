@@ -83,7 +83,7 @@
     <main>
         <div>
          <form action="<%= editing ? '/host/update-home' : '/host/add-home' %>" method="post">
-            <input type="hidden"  name="id" value="<%= editing ? homeDetails.id : '' %>">
+            <input type="hidden"  name="id" value="<%= editing ? homeDetails._id : '' %>">
             <input 
                 type='text' 
                 placeholder='Enter your home name' 
