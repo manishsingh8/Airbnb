@@ -24,7 +24,7 @@ exports.getEditHome = (req, res, next) => {
 };
 
 exports.getAdminHomeList = (req, res, next) => {
-  Home.fetchAll().then((registeredHome) => {
+  Home.find().then((registeredHome) => {
     res.render("host/adminHomeList", {
       registeredHome,
       pageTitle: "Admin Home Details",
@@ -34,33 +34,42 @@ exports.getAdminHomeList = (req, res, next) => {
 
 exports.postAddHome = (req, res, next) => {
   const { homeName, homePrice, homeLocation, homeRating } = req.body;
-  const home = new Home(homeName, homePrice, homeLocation, homeRating);
+  const home = new Home({ homeName, homePrice, homeLocation, homeRating });
   home
     .save()
     .then(() => {
       console.log("Home Saved SuccessFully");
+      res.redirect("/home-list");
     })
     .catch((error) => console.log("Error while adding home to db", error));
-  res.redirect("/home-list");
 };
 exports.postUpdateHome = (req, res, next) => {
   const { id, homeName, homePrice, homeLocation, homeRating } = req.body;
-  const home = new Home(homeName, homePrice, homeLocation, homeRating, id);
-  home
-    .save()
-    .then((result) => {
-      console.log("Home Updated Successfully", result);
-      res.redirect("/host/admin-home-list");
+  Home.findById(id)
+    .then((home) => {
+      (home.homeName = homeName),
+        (home.homePrice = homePrice),
+        (home.homeLocation = homeLocation),
+        (home.homeRating = homeRating),
+        home
+          .save()
+          .then((result) => {
+            console.log("Home Updated Successfully", result);
+            res.redirect("/host/admin-home-list");
+          })
+          .catch((err) => {
+            console.error("Error while saving/updating home:", err);
+            res.status(500).send("Database update failed");
+          });
     })
     .catch((err) => {
-      console.error("Error while saving/updating home:", err);
-      res.status(500).send("Database update failed");
+      console.log("Error while fetching home", err);
     });
 };
 
 exports.postDeleteHome = (req, res, next) => {
   const id = req.params.homeId;
-  Home.deleteById(id)
+  Home.findByIdAndDelete(id)
     .then(() => {
       res.redirect("/host/admin-home-list");
     })

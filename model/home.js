@@ -1,50 +1,18 @@
-const { ObjectId } = require("mongodb");
-const { getDb } = require("../utils/database");
+const { mongoose } = require("mongoose");
+const favourite = require("./favourite");
 
-module.exports = class Home {
-  constructor(homeName, homePrice, homeLocation, homeRating, _id) {
-    this.homeName = homeName;
-    this.homePrice = homePrice;
-    this.homeLocation = homeLocation;
-    this.homeRating = homeRating;
-    if (_id) {
-      this._id = _id;
-    }
-  }
+const homeSchema = mongoose.Schema({
+  homeName: { type: String, required: true },
+  homePrice: { type: Number, required: true },
+  homeLocation: { type: String, required: true },
+  homeRating: String,
+});
 
-  save() {
-    const db = getDb();
-    if (this._id) {
-      const updatedField = {
-        homeName: this.homeName,
-        homePrice: this.homePrice,
-        homeLocation: this.homeLocation,
-        homeRating: this.homeRating,
-      };
-      return db
-        .collection("homes")
-        .updateOne(
-          { _id: new ObjectId(String(this._id)) },
-          { $set: updatedField }
-        );
-    } else {
-      return db.collection("homes").insertOne(this);
-    }
-  }
+homeSchema.pre("findOneAndDelete", async function (next) {
+  console.log("Came to pre hook while deleting a home");
+  const homeId = this.getQuery()._id;
+  await favourite.deleteMany({ homeId });
+  next();
+});
 
-  static fetchAll() {
-    const db = getDb();
-    return db.collection("homes").find().toArray();
-  }
-  static findById(id) {
-    const db = getDb();
-    return db
-      .collection("homes")
-      .find({ _id: new ObjectId(String(id)) })
-      .next();
-  }
-  static deleteById(id) {
-    const db = getDb();
-    return db.collection("homes").deleteOne({ _id: new ObjectId(String(id)) });
-  }
-};
+module.exports = mongoose.model("Home", homeSchema);

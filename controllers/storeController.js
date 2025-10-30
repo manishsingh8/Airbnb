@@ -2,7 +2,7 @@ const Home = require("../model/home");
 const Favorite = require("../model/favourite");
 
 exports.getHomes = (req, res, next) => {
-  Home.fetchAll()
+  Home.find()
     .then((registeredHome) => {
       res.render("store/home", { registeredHome, pageTitle: "airbnb" });
     })
@@ -10,7 +10,7 @@ exports.getHomes = (req, res, next) => {
 };
 
 exports.getHomeList = (req, res, next) => {
-  Home.fetchAll().then((registeredHome) => {
+  Home.find().then((registeredHome) => {
     res.render("store/homeList", { registeredHome, pageTitle: "Listed Homes" });
   });
 };
@@ -38,22 +38,19 @@ exports.getReservedHome = (req, res, next) => {
 };
 
 exports.getFavouriteList = (req, res, next) => {
-  Favorite.getFavorites().then((favorite) => {
-    favorite = favorite.map((home) => home.homeId);
-    Home.fetchAll().then((registeredHome) => {
-      const favoriteHomes = registeredHome.filter((home) =>
-        favorite.includes(home._id.toString())
-      );
+  Favorite.find()
+    .populate("homeId")
+    .then((favorite) => {
+      const favoriteHomes = favorite.map((home) => home.homeId);
       res.render("store/favouriteList", {
         favoriteHomes,
         pageTitle: "Favourite List",
       });
     });
-  });
 };
 exports.postFavorite = (req, res, next) => {
   const homeId = req.body.id;
-  const home = new Favorite(homeId);
+  const home = new Favorite({ homeId });
   home
     .save()
     .then(() => {
@@ -66,7 +63,7 @@ exports.postFavorite = (req, res, next) => {
 };
 exports.postRemoveFavorite = (req, res, next) => {
   const homeId = req.params.homeId;
-  Favorite.deleteById(homeId).then((msg) => {
+  Favorite.findOneAndDelete({ homeId }).then((msg) => {
     console.log(msg);
     res.redirect("/favourite-list");
   });
