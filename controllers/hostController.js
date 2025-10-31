@@ -5,6 +5,7 @@ exports.getAddHome = (req, res) => {
     editing: false,
     homeDetails: [],
     pageTitle: "Add Home",
+    isLoggedIn: req.isLoggedIn,
   });
 };
 exports.getEditHome = (req, res) => {
@@ -19,6 +20,7 @@ exports.getEditHome = (req, res) => {
       editing,
       homeDetails,
       pageTitle: "Add Home",
+      isLoggedIn: req.isLoggedIn,
     });
   });
 };
@@ -28,6 +30,7 @@ exports.getAdminHomeList = (req, res) => {
     res.render("host/adminHomeList", {
       registeredHome,
       pageTitle: "Admin Home Details",
+      isLoggedIn :req.isLoggedIn
     });
   });
 };
