@@ -1,13 +1,13 @@
 const Home = require("../model/home");
 
-exports.getAddHome = (req, res, next) => {
+exports.getAddHome = (req, res) => {
   res.render("host/editHome", {
     editing: false,
     homeDetails: [],
     pageTitle: "Add Home",
   });
 };
-exports.getEditHome = (req, res, next) => {
+exports.getEditHome = (req, res) => {
   const editing = req.query.editing === "true";
   const id = req.params.homeId;
   Home.findById(id).then((homeDetails) => {
@@ -23,7 +23,7 @@ exports.getEditHome = (req, res, next) => {
   });
 };
 
-exports.getAdminHomeList = (req, res, next) => {
+exports.getAdminHomeList = (req, res) => {
   Home.find().then((registeredHome) => {
     res.render("host/adminHomeList", {
       registeredHome,
@@ -32,7 +32,7 @@ exports.getAdminHomeList = (req, res, next) => {
   });
 };
 
-exports.postAddHome = (req, res, next) => {
+exports.postAddHome = (req, res) => {
   const { homeName, homePrice, homeLocation, homeRating } = req.body;
   const home = new Home({ homeName, homePrice, homeLocation, homeRating });
   home
@@ -43,7 +43,7 @@ exports.postAddHome = (req, res, next) => {
     })
     .catch((error) => console.log("Error while adding home to db", error));
 };
-exports.postUpdateHome = (req, res, next) => {
+exports.postUpdateHome = (req, res) => {
   const { id, homeName, homePrice, homeLocation, homeRating } = req.body;
   Home.findById(id)
     .then((home) => {
@@ -67,7 +67,7 @@ exports.postUpdateHome = (req, res, next) => {
     });
 };
 
-exports.postDeleteHome = (req, res, next) => {
+exports.postDeleteHome = (req, res) => {
   const id = req.params.homeId;
   Home.findByIdAndDelete(id)
     .then(() => {
