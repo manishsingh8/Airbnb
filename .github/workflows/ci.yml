@@ -20,13 +20,10 @@ jobs:
           node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Fix ESLint permissions (Windows-origin fix)
-        run: chmod +x ./node_modules/.bin/eslint
-
-      - name: Run lint
-        run: npm run lint
+      - name: Run ESLint
+        run: npx eslint .
 
       - name: Run tests
         run: npm test
