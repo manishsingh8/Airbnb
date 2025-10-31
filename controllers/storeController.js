@@ -1,7 +1,7 @@
 const Home = require("../model/home");
 const Favorite = require("../model/favourite");
 
-exports.getHomes = (req, res, next) => {
+exports.getHomes = (req, res) => {
   Home.find()
     .then((registeredHome) => {
       res.render("store/home", { registeredHome, pageTitle: "airbnb" });
@@ -9,13 +9,13 @@ exports.getHomes = (req, res, next) => {
     .catch((error) => console.log("Error while fetching data", error));
 };
 
-exports.getHomeList = (req, res, next) => {
+exports.getHomeList = (req, res) => {
   Home.find().then((registeredHome) => {
     res.render("store/homeList", { registeredHome, pageTitle: "Listed Homes" });
   });
 };
 
-exports.getHomeDetails = (req, res, next) => {
+exports.getHomeDetails = (req, res) => {
   let id = req.params.homeId;
   Home.findById(id).then((homeDetails) => {
     if (!homeDetails) {
@@ -29,15 +29,15 @@ exports.getHomeDetails = (req, res, next) => {
   });
 };
 
-exports.getHomeBookings = (req, res, next) => {
+exports.getHomeBookings = (req, res) => {
   res.render("store/bookings", { pageTitle: "Bookings" });
 };
 
-exports.getReservedHome = (req, res, next) => {
+exports.getReservedHome = (req, res) => {
   res.render("store/reservedHome", { pageTitle: "Reserved Home" });
 };
 
-exports.getFavouriteList = (req, res, next) => {
+exports.getFavouriteList = (req, res) => {
   Favorite.find()
     .populate("homeId")
     .then((favorite) => {
@@ -48,7 +48,7 @@ exports.getFavouriteList = (req, res, next) => {
       });
     });
 };
-exports.postFavorite = (req, res, next) => {
+exports.postFavorite = (req, res) => {
   const homeId = req.body.id;
   const home = new Favorite({ homeId });
   home
@@ -61,7 +61,7 @@ exports.postFavorite = (req, res, next) => {
       res.redirect("/favourite-list");
     });
 };
-exports.postRemoveFavorite = (req, res, next) => {
+exports.postRemoveFavorite = (req, res) => {
   const homeId = req.params.homeId;
   Favorite.findOneAndDelete({ homeId }).then((msg) => {
     console.log(msg);
