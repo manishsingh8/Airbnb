@@ -3,6 +3,7 @@ const path = require("path");
 
 const storeRouter = require("./routes/storeRouter");
 const { hostRouter } = require("./routes/hostRouter");
+const authRouter = require("./routes/authRouter");
 const rootDir = require("./utils/rootDir");
 const errorController = require("./controllers/error");
 const { mongoose } = require("mongoose");
@@ -15,7 +16,22 @@ app.use(express.urlencoded());
 
 app.use(express.static(path.join(rootDir, "public")));
 
+app.use((req, res, next) => {
+  (req.isLoggedIn = req.get("Cookie")
+    ? req.get("Cookie").split("=")[1]
+    : false),
+    next();
+});
+
+app.use(authRouter);
 app.use(storeRouter);
+app.use("/host", (req, res, next) => {
+  if (req.isLoggedIn) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+});
 app.use("/host", hostRouter);
 
 app.use(errorController.getError);
