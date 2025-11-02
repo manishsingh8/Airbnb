@@ -2,7 +2,6 @@ const Home = require("../model/home");
 const Favorite = require("../model/favourite");
 
 exports.getHomes = (req, res) => {
-  console.log(req.isLoggedIn);
   Home.find()
     .then((registeredHome) => {
       res.render("store/home", {
