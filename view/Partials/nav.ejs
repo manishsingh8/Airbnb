@@ -14,10 +14,11 @@
                 <% } %>
                  <% if(isLoggedIn){ %>
                     <form action="/logout" method="post">
-                        <button type="submit" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s; border:none;">Logout</button>
+                        <button type="submit" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s; border:none;cursor:pointer;">Logout</button>
                     </form>
                 <% }else{ %>
                 <a href="/login" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Login</a>
+                <a href="/signup" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Signup</a>
                <% } %>  
             </div>
     </div>
