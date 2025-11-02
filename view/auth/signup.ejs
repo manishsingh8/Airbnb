@@ -1,0 +1,156 @@
+<%- include('../Partials/head') %>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #6a11cb, #2575fc);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    header {
+        text-align: center;
+        color: white;
+        margin-bottom: 20px;
+    }
+
+    h1 {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+    main{
+        display: flex;
+        justify-content: center;
+    }
+
+    main div {
+        background: #fff;
+        padding: 30px 40px;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    input[type='text'],
+    input[type='email'],
+    input[type='password'],
+    input[type='number'] {
+        padding: 12px 15px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.2s ease-in-out;
+    }
+
+    input[type='text']:focus,
+    input[type='number']:focus {
+        border-color: #2575fc;
+        box-shadow: 0 0 5px rgba(37, 117, 252, 0.4);
+    }
+
+    input[type='submit'] {
+        background: #2575fc;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 10px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    input[type='submit']:hover {
+        background: #1b5fd3;
+    }
+    nav {
+        margin-bottom: 40px;
+    }
+    .term{
+      display: flex;
+      align-items: center;
+      padding: 0px;
+      gap: 10px;
+      box-shadow: none;
+      margin-bottom: 10px;
+    }
+    .user-type{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0px;
+      box-shadow: none;
+    }
+    .user-text{
+        font-weight: bold;
+    }
+</style>
+
+<body >
+    <%- include('../Partials/nav') %>
+    <header>
+        <h1>Signup</h1>
+    </header>
+    <main>
+        <div>
+         <form action="/signup" method="post">
+            <input 
+                type='text' 
+                placeholder='Enter your first name' 
+                name="firstName" 
+                required 
+            />
+            <input 
+                type='text' 
+                placeholder='Enter your last name' 
+                name="lastName"                
+            />
+            <input 
+                type='email' 
+                placeholder='Enter your email' 
+                name="email" 
+                required 
+            />
+            <input 
+                type='password' 
+                placeholder='Enter your password' 
+                name="password" 
+                required 
+            />
+            <input 
+                type='password' 
+                placeholder='Confirm password' 
+                name="confirmPassword" 
+                required 
+            />
+            <div class="user-type">
+                <p class="user-text">User Type:</p>
+                <label for="guest">Guest</label>
+                <input type="radio" name="user-type" value="guest" id="guest" required>
+                <label for="host">Host</label>
+                <input type="radio" name="user-type" value="host" id="host" required>
+            </div>
+            <div class="term">
+                <input 
+                    type='checkbox' 
+                    name="term"
+                    id="term"
+                    required 
+                />
+                <label for="term">By clicking this you accept the term and condition.</label>
+            </div>
+            <input type='submit' value="SignUp" />
+    </form>
+        </div>
+    </main>
+</body>
+</html>
