@@ -73,7 +73,7 @@ AIRBNB/
 
 ### 1️⃣ Clone the repository
 ```bash
-git clone https://github.com/<your-username>/airbnb-clone.git
+https://github.com/manishsingh8/Airbnb.git
 cd airbnb-clone
 
 ```
@@ -84,5 +84,23 @@ npm install
 Run the project
 ```
 npm start
+```
+🧩 Folder Explanation
+
+| Folder/File      | Description                                              |
+| ---------------- | -------------------------------------------------------- |
+| **controllers/** | Contains logic for handling requests/responses           |
+| **models/**      | Mongoose schemas for MongoDB collections                 |
+| **routes/**      | Express route definitions                                |
+| **views/**       | EJS templates for UI rendering                           |
+| **public/**      | Static assets like CSS, JS, and images                   |
+| **app.js**       | Entry point that sets up Express, routes, and middleware |
+
+✨ Author
+```
+Manish Singh
+Email: manishsingh04031998@gmail.com
+Frontend Developer | Node.js & React Enthusiast
+```
 
 
