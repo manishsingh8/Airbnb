@@ -6,11 +6,38 @@ exports.getLogin = (req, res) => {
   res.render("auth/login", {
     pageTitle: "Login",
     isLoggedIn: false,
+    errors: [],
+    oldInput: { email: "" },
+    user: {},
   });
 };
 
-exports.postLogin = (req, res) => {
+exports.postLogin = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(422).render("auth/login", {
+      pageTitle: "login",
+      isLoggedIn: false,
+      errors: ["User does not exist"],
+      oldInput: { email },
+      user: {},
+    });
+  }
+  const isMatch = await bcrypt.compare(password, user.password);
+  console.log(isMatch, password, user.password);
+  if (!isMatch) {
+    return res.status(422).render("auth/login", {
+      pageTitle: "login",
+      isLoggedIn: false,
+      errors: ["Invalid Password"],
+      oldInput: { email },
+      user: {},
+    });
+  }
   req.session.isLoggedIn = true;
+  req.session.user = user;
+  await req.session.save();
   res.redirect("/");
 };
 
@@ -25,6 +52,7 @@ exports.getSignup = (req, res) => {
     pageTitle: "SignUp",
     isLoggedIn: false,
     oldInput: [],
+    user: {},
   });
 };
 
@@ -83,6 +111,7 @@ exports.postSignup = [
         isLoggedIn: false,
         errors: errors.array().map((err) => err.msg),
         oldInput: { firstName, lastName, email, password, userType, term },
+        user: {},
       });
     }
     bcrypt
@@ -106,6 +135,7 @@ exports.postSignup = [
           isLoggedIn: false,
           errors: [err.message],
           oldInput: { firstName, lastName, email, password, userType, term },
+          user: {},
         });
       });
   },

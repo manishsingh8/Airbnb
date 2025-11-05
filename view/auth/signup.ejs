@@ -93,6 +93,27 @@
     .user-text{
         font-weight: bold;
     }
+    .signin-link {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 0.95rem;
+        color: #555;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        margin-top: 16px;
+    }
+
+    .signin-link a {
+        color: #2575fc;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .signin-link a:hover {
+        color: #6a11cb;
+    }
 </style>
 
 <body >
@@ -147,10 +168,10 @@
             />
             <div class="user-type">
                 <p class="user-text">User Type:</p>
-                <label for="guest">Guest</label>
                 <input type="radio" name="userType" value="guest" id="guest" checked required>
-                <label for="host">Host</label>
+                <label for="guest">Guest</label>
                 <input type="radio" name="userType" value="host" id="host" required>
+                <label for="host">Host</label>
             </div>
             <div class="term">
                 <input 
@@ -163,6 +184,10 @@
             </div>
             <input type='submit' value="Register" />
     </form>
+    <div class="signin-link">
+                Already have an account? <a href="/login">Signin  here</a>
+            </div>
+        </div>
         </div>
     </main>
 </body>
