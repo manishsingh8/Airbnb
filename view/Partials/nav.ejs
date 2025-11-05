@@ -5,16 +5,19 @@
         </a>
             <div style="display: flex; gap: 15px;">
                 <% if(isLoggedIn){ %>
-                    <a href="/home-list" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">See Listed Home</a>
-                    <a href="/bookings" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">See Bookings</a>
-                    <a href="/reserved-homes" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Reserved Homes</a>
-                    <a href="/favourite-list" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Favourite</a>
-                    <a href="/host/add-home" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Add Home</a>
-                    <a href="/host/admin-home-list" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Admin</a>
+                    <% if(user && user.userType === 'guest'){ %>
+                        <a href="/home-list" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">See Listed Home</a>
+                        <a href="/bookings" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">See Bookings</a>
+                        <a href="/reserved-homes" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Reserved Homes</a>
+                        <a href="/favourite-list" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Favourite</a>
+                    <% } else{ %>
+                        <a href="/host/add-home" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Add Home</a>
+                        <a href="/host/admin-home-list" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Host Home</a>
+                        <% } %>   
                 <% } %>
                  <% if(isLoggedIn){ %>
                     <form action="/logout" method="post">
-                        <button type="submit" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s; border:none;cursor:pointer;">Logout</button>
+                        <button type="submit" style="text-decoration: none; color: #007bff; font-weight: bold;font-size: 16px; padding: 6px 12px; border-radius: 5px; transition: 0.3s; border:none;cursor:pointer;">Logout</button>
                     </form>
                 <% }else{ %>
                 <a href="/login" style="text-decoration: none; color: #007bff; font-weight: bold; padding: 6px 12px; border-radius: 5px; transition: 0.3s;">Login</a>
